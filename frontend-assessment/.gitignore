@@ -1,0 +1,11 @@
+# Only this assessment's own code is tracked: the theme, the setup scripts and the docs.
+# WordPress core, wp-config.php, uploads and the bundled themes/plugins stay out of git.
+/*
+!/.gitignore
+!/README.md
+!/setup/
+!/wp-content/
+/wp-content/*
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/estate-showcase/

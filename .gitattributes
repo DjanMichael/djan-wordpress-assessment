@@ -1,0 +1,7 @@
+# Store text with LF line endings (WordPress coding standards), whatever the OS.
+* text=auto eol=lf
+
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
