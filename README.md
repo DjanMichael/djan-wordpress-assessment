@@ -1,1 +1,0 @@
-# djan-wordpress-assessment
