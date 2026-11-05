@@ -32,11 +32,14 @@ WordPress core, `wp-config.php`, uploads and the bundled default themes/plugins 
 
 Requirements: PHP 7.4+, MySQL 5.7+ or MariaDB 10.4+, WordPress 6.4+ (built and tested on WordPress 7.1.4 / PHP 8.3).
 
-For **each** project folder:
+For **each** project folder (no WP-CLI needed):
 
-1. Put WordPress core in the folder (`wp core download --skip-content`).
-2. Create its database and `wp-config.php`, then install WordPress.
-3. Activate its theme and run `wp eval-file setup/demo-content.php`.
-4. Serve it, e.g. `php -S localhost:8091 setup/router.php` for the front end and `php -S localhost:8092 setup/router.php` for the back end.
+1. Copy WordPress core into the folder: unzip <https://wordpress.org/latest.zip> and copy everything except its `wp-content` folder.
+2. Create an empty database.
+3. Serve the folder:
+   - front end: `php -S localhost:8091 setup/router.php`
+   - back end: `php -S localhost:8092 setup/router.php`
+4. Open that URL. The WordPress setup wizard creates `wp-config.php` and installs the site.
+5. Activate the theme in Appearance → Themes, then run `php setup/demo-content.php` for the demo content.
 
 The full steps, plus how to deploy each theme to a live site, are in [frontend-assessment/README.md](frontend-assessment/README.md) and [backend-assessment/README.md](backend-assessment/README.md).

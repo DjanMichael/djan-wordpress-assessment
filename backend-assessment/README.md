@@ -61,24 +61,47 @@ backend-assessment/             ← WordPress root (core files are not in git)
 
 ## Run it locally
 
-1. **Get WordPress core** into this folder. Use WP-CLI `wp core download --skip-content`, or unzip <https://wordpress.org/latest.zip> here **without** overwriting `wp-content/themes/jobs-board`.
-2. **Create a database**, e.g. `wpa_backend` (utf8mb4).
-3. **Create `wp-config.php`.** With WP-CLI: `wp config create --dbname=wpa_backend --dbuser=root --dbhost=127.0.0.1`. Otherwise copy `wp-config-sample.php` and fill in the database details.
-4. **Install WordPress:**
-   ```bash
-   wp core install --url=http://localhost:8092 --title="Essex Digital Careers" --admin_user=admin --admin_email=you@example.com
+You need PHP and MySQL; Laragon, XAMPP and MAMP include both. WP-CLI is **not** required. WordPress core isn't committed, so add it once:
+
+1. **Add WordPress core.** Download <https://wordpress.org/latest.zip>, unzip it, and copy everything **except its `wp-content` folder** into this project folder. In PowerShell, from this folder:
+   ```powershell
+   Invoke-WebRequest https://wordpress.org/latest.zip -OutFile "$env:TEMP\wordpress.zip"
+   Expand-Archive "$env:TEMP\wordpress.zip" "$env:TEMP\wp-core" -Force
+   Get-ChildItem "$env:TEMP\wp-core\wordpress" -Exclude wp-content | Copy-Item -Destination . -Recurse -Force
    ```
-   Or open `/wp-admin/install.php` in the browser.
-5. **Activate the theme and add sample jobs:**
-   ```bash
-   wp theme activate jobs-board
-   wp eval-file setup/demo-content.php     # or: php setup/demo-content.php
+2. **Create an empty database** called `wpa_backend`, using HeidiSQL, phpMyAdmin or:
+   ```powershell
+   mysql -u root -e "CREATE DATABASE wpa_backend CHARACTER SET utf8mb4"
    ```
-6. **Serve it:**
-   ```bash
+3. **Start the site** from this folder:
+   ```powershell
    php -S localhost:8092 setup/router.php
    ```
-   Then open <http://localhost:8092/jobs/>. With Laragon, XAMPP or MAMP you can point a virtual host at this folder instead and use that URL in step 4.
+4. **Install WordPress.** Open <http://localhost:8092>. The setup wizard does three things:
+   - asks for the database details (name `wpa_backend`, user `root`, password empty on Laragon/XAMPP, host `127.0.0.1`);
+   - writes `wp-config.php`;
+   - asks for a site title and an admin account.
+5. **Activate the theme:** WP Admin → Appearance → Themes → **Jobs Board** → Activate.
+6. **Add the sample jobs.** In a second terminal, from this folder:
+   ```powershell
+   php setup/demo-content.php
+   ```
+   Open <http://localhost:8092/jobs/>. Or add jobs yourself under **Jobs → Add New Job**, after setting Settings → Permalinks to "Post name".
+
+If PowerShell says `php` or `mysql` is not recognised, open Laragon's terminal (Menu → Terminal), which has both on its PATH. Or call PHP by its full path, e.g. `C:\laragon\bin\php\php-8.3.11-nts-Win32-vs16-x64\php.exe`.
+
+### With WP-CLI (optional)
+
+If [WP-CLI](https://make.wordpress.org/cli/handbook/guides/installing/) is installed (the `wp` command), these commands replace steps 1, 2 and 4–6:
+
+```bash
+wp core download --skip-content
+wp config create --dbname=wpa_backend --dbuser=root --dbhost=127.0.0.1
+wp db create
+wp core install --url=http://localhost:8092 --title="Essex Digital Careers" --admin_user=admin --admin_email=you@example.com
+wp theme activate jobs-board
+wp eval-file setup/demo-content.php
+```
 
 `setup/demo-content.php` can be run more than once:
 - It turns on "Post name" permalinks.
@@ -106,7 +129,7 @@ cd wp-content/themes && zip -r ../../jobs-board.zip jobs-board
 
 Then upload it in one of these ways:
 - **WP Admin:** Appearance → Themes → Add New Theme → Upload Theme → choose `jobs-board.zip` → Install Now → **Activate**.
-- **SFTP/SSH:** copy the `jobs-board` folder to `wp-content/themes/` on the server, then activate it, or run `wp theme activate jobs-board`.
+- **SFTP/SSH:** copy the `jobs-board` folder to `wp-content/themes/` on the server, then activate it in Appearance → Themes. With WP-CLI on the server, `wp theme activate jobs-board` does the same.
 
 ### 2. Permalinks
 
