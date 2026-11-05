@@ -40,6 +40,7 @@ It is built **without plugins**. All the code is in the `wp-content/themes/jobs-
 backend-assessment/             ← WordPress root (core files are not in git)
 ├── README.md
 ├── setup/
+│   ├── install.php             ← one-step local install (CLI only)
 │   ├── demo-content.php        ← six sample jobs, Home page, menu (CLI only)
 │   └── router.php              ← router for `php -S` local server
 └── wp-content/themes/jobs-board/
@@ -60,6 +61,22 @@ backend-assessment/             ← WordPress root (core files are not in git)
 - WordPress 6.4 or newer (built and tested on **7.1.4**)
 
 ## Run it locally
+
+**Quickest:** with PHP and MySQL running, from this folder:
+
+```bash
+php setup/install.php
+php -S localhost:8092 setup/router.php
+```
+
+Open <http://localhost:8092/jobs/>. The installer does the following, then prints the admin login:
+- downloads WordPress;
+- creates the `wpa_backend` database and `wp-config.php`;
+- installs the site, activates the theme and adds six sample jobs.
+
+If your MySQL isn't root with no password, add your details, e.g. `--db-user=root --db-pass=root --db-port=8889`. `--help` lists every option. Troubleshooting is in the [root README](../README.md#troubleshooting).
+
+### Manual install (without the installer)
 
 You need PHP and MySQL; Laragon, XAMPP and MAMP include both. WP-CLI is **not** required. WordPress core isn't committed, so add it once:
 

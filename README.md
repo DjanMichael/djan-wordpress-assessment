@@ -1,13 +1,143 @@
 # WordPress Assessments
 
-Two **separate WordPress projects** in one repository, one for each assessment. Each folder is a standalone WordPress site with its own database, theme and deployment README.
+Two **separate WordPress projects** in one repository, one for each assessment. Each folder is a standalone WordPress site with its own database, theme and README.
 
 | Folder | Assessment | Theme | What it shows |
 | --- | --- | --- | --- |
 | [`frontend-assessment/`](frontend-assessment/README.md) | WordPress Front-end Development | `estate-showcase` | Bootstrap 5 landing page with a featured listings grid and a Google reviews slider (Open Sans, Font Awesome, SEO) |
 | [`backend-assessment/`](backend-assessment/README.md) | WordPress Development (back-end) | `jobs-board` | "Jobs" custom post type with Job Title, Salary and Location fields, a jobs archive and a single job view, without plugins |
 
-Both themes are lightweight classic themes written for these tasks. Neither project uses any plugins.
+---
+
+## Run it on your computer
+
+Each project has a one-step installer, so you don't need WP-CLI, Composer, Node or Docker.
+
+### What you need
+
+- **PHP 7.4 or newer** on the command line. The `mysqli`, `zip` and `openssl` extensions are on by default in most installs. Check with `php -v`.
+- **MySQL 5.7+ or MariaDB**, running.
+- **Internet access**, because the installer downloads WordPress from wordpress.org.
+
+If you don't have PHP and MySQL yet:
+- **Windows:** [Laragon](https://laragon.org/) or [XAMPP](https://www.apachefriends.org/).
+- **macOS:** `brew install php mysql && brew services start mysql`, or [MAMP](https://www.mamp.info/).
+
+### Install and start (about 2 minutes)
+
+**1. Get the code**
+
+```bash
+git clone <repository-url> wordpress-assessments
+cd wordpress-assessments
+```
+
+**2. Front-end assessment**
+
+```bash
+cd frontend-assessment
+php setup/install.php
+php -S localhost:8091 setup/router.php
+```
+
+Open **<http://localhost:8091>**. Leave this terminal running.
+
+**3. Back-end assessment.** In a second terminal, from the `wordpress-assessments` folder:
+
+```bash
+cd backend-assessment
+php setup/install.php
+php -S localhost:8092 setup/router.php
+```
+
+Open **<http://localhost:8092/jobs/>**.
+
+At the end, the installer prints the **WP Admin login**: user `admin` and a generated password. To stop a site, press `Ctrl+C` in its terminal. To start it again later, run just the `php -S …` line.
+
+The installer:
+- downloads the latest WordPress and checks its SHA-1, leaving the theme folder alone;
+- creates the database (`wpa_frontend` or `wpa_backend`) and `wp-config.php`;
+- installs WordPress, activates the theme and adds the demo content.
+
+It only touches that project folder and its database, and you can safely run it again.
+
+### MySQL isn't "root" with no password?
+
+Give the installer your details:
+
+| Setup | Command |
+| --- | --- |
+| MAMP | `php setup/install.php --db-user=root --db-pass=root --db-port=8889` |
+| Anything else | `php setup/install.php --db-host=127.0.0.1 --db-port=3306 --db-user=YOUR_USER --db-pass=YOUR_PASSWORD` |
+
+`php setup/install.php --help` lists every option, including the database name, URL/port, admin login, and `--zip` for using a WordPress zip you already have.
+
+### Port 8091 or 8092 already in use?
+
+Install on a different port, then serve on that same port:
+
+```bash
+php setup/install.php --url=http://localhost:8095
+php -S localhost:8095 setup/router.php
+```
+
+### Prefer Local, XAMPP htdocs or an existing WordPress site?
+
+Use a separate WordPress site for each assessment:
+
+1. Create a new WordPress site, e.g. in [Local](https://localwp.com/).
+2. Copy the theme folder into that site's `wp-content/themes/`:
+   - front end: `frontend-assessment/wp-content/themes/estate-showcase`
+   - back end: `backend-assessment/wp-content/themes/jobs-board`
+3. Activate it in **Appearance → Themes**.
+4. Add the demo content. In Local, right-click the site → **Open site shell**, then run:
+   ```bash
+   wp eval-file "<path-to-repo>/frontend-assessment/setup/demo-content.php"
+   ```
+   Use `backend-assessment/...` for the back end. The script also sets the demo site title. Alternatively, follow the manual steps in the project README:
+   - **Front end:** create a page with the *Featured Listings* template and set it as the homepage.
+   - **Back end:** set Settings → Permalinks to "Post name", save, then add jobs under Jobs → Add New Job.
+
+---
+
+## What to look at
+
+### Front-end assessment: <http://localhost:8091>
+
+- **Navbar:** the standard Bootstrap 5 navbar. Narrow the window below 992 px to get the hamburger menu.
+- **"Our featured listing"** (Design 1): three property cards with price, status badge, details, favourite button and availability.
+- **"Google Reviews"** (Design 2): six reviews on a slider. Resize the window to see **3 per slide on desktop, 2 on tablets and 1 on phones**. Use the dots or swipe; autoplay pauses on hover.
+- **View source:**
+  - one `<h1>`, the meta description, Open Graph tags and JSON-LD;
+  - Bootstrap 5.3.3 and Font Awesome 6.5.2, loaded with integrity hashes;
+  - Open Sans from Google Fonts.
+- **Code:** `frontend-assessment/wp-content/themes/estate-showcase/`. The [project README](frontend-assessment/README.md) maps each requirement to its file.
+
+### Back-end assessment: <http://localhost:8092>
+
+- **WP Admin → Jobs:** the list shows Job Title, Salary and Location columns.
+- **Jobs → Add New Job:** the *Job details* fields sit under the title. Publish, edit, then trash or delete a job.
+- **Front end:**
+  - **<http://localhost:8092/jobs/>** is the archive, listing every job with all its fields;
+  - click a job for the single view.
+- **Code:** `backend-assessment/wp-content/themes/jobs-board/`:
+  - `inc/jobs.php` has the post type, fields, meta box and saving;
+  - `archive-job.php` and `single-job.php` are the two views.
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| `php` is not recognised | PHP isn't on your PATH. Use Laragon's terminal (Menu → Terminal) or XAMPP's Shell button, or call PHP by its full path, e.g. `C:\xampp\php\php.exe setup/install.php`. |
+| `Can't connect to MySQL` | Start MySQL (Laragon/XAMPP control panel, or `brew services start mysql`), or pass your details with the `--db-*` options above. |
+| `zip extension is missing` / `mysqli extension is missing` | Enable `extension=zip` / `extension=mysqli` in `php.ini`. On XAMPP that file is `C:\xampp\php\php.ini`. |
+| WordPress download fails (proxy or firewall) | Download <https://wordpress.org/latest.zip> yourself and run `php setup/install.php --zip=path/to/latest.zip`. |
+| `/jobs/` returns 404 under Apache or nginx | WP Admin → Settings → Permalinks → **Save Changes**. |
+| Start again from scratch | Drop that project's database, delete its `wp-config.php`, and run the installer again. |
+
+---
 
 ## What is in git
 
@@ -17,29 +147,15 @@ Each project folder is a WordPress root, but only the work itself is committed:
 wordpress-assessments/
 ├── README.md                         ← this file
 ├── frontend-assessment/
-│   ├── README.md                     ← run locally + deploy
-│   ├── setup/                        ← demo content script, local router
+│   ├── README.md                     ← details + deploying to a live site
+│   ├── setup/                        ← install.php, demo-content.php, router.php
 │   └── wp-content/themes/estate-showcase/
 └── backend-assessment/
-    ├── README.md                     ← run locally + deploy
+    ├── README.md
     ├── setup/
     └── wp-content/themes/jobs-board/
 ```
 
-WordPress core, `wp-config.php`, uploads and the bundled default themes/plugins are excluded by each project's `.gitignore`. Download core into the folder and follow that project's README.
+Each project's `.gitignore` keeps out WordPress core, `wp-config.php`, uploads and the bundled default themes/plugins. The installer adds core when you run it.
 
-## Quick start
-
-Requirements: PHP 7.4+, MySQL 5.7+ or MariaDB 10.4+, WordPress 6.4+ (built and tested on WordPress 7.1.4 / PHP 8.3).
-
-For **each** project folder (no WP-CLI needed):
-
-1. Copy WordPress core into the folder: unzip <https://wordpress.org/latest.zip> and copy everything except its `wp-content` folder.
-2. Create an empty database.
-3. Serve the folder:
-   - front end: `php -S localhost:8091 setup/router.php`
-   - back end: `php -S localhost:8092 setup/router.php`
-4. Open that URL. The WordPress setup wizard creates `wp-config.php` and installs the site.
-5. Activate the theme in Appearance → Themes, then run `php setup/demo-content.php` for the demo content.
-
-The full steps, plus how to deploy each theme to a live site, are in [frontend-assessment/README.md](frontend-assessment/README.md) and [backend-assessment/README.md](backend-assessment/README.md).
+Built and tested on WordPress 7.1.4 with PHP 8.3 and MySQL 8. The themes need WordPress 6.4+ and PHP 7.4+.
