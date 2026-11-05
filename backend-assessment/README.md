@@ -74,6 +74,10 @@ Open <http://localhost:8092/jobs/>. The installer does the following, then print
 - creates the `wpa_backend` database and `wp-config.php`;
 - installs the site, activates the theme and adds six sample jobs.
 
+Log in at <http://localhost:8092/wp-admin/> as `admin` with the printed password.
+- To choose your own password, add `--admin-pass=YOUR_PASSWORD`.
+- If you forget it, run the installer again with `--admin-pass=NEW_PASSWORD`.
+
 If your MySQL isn't root with no password, add your details, e.g. `--db-user=root --db-pass=root --db-port=8889`. `--help` lists every option. Troubleshooting is in the [root README](../README.md#troubleshooting).
 
 ### Manual install (without the installer)

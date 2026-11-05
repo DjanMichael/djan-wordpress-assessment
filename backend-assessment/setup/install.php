@@ -13,6 +13,7 @@
  *   --db-host=127.0.0.1   --db-port=3306   --db-user=root   --db-pass=
  *   --db-name=wpa_backend   --url=http://localhost:8092
  *   --admin-user=admin   --admin-pass=<random>   --admin-email=admin@example.com
+ *   (on a site that is already installed, --admin-pass sets a new password for --admin-user)
  *   --zip=path/to/wordpress.zip   (use a downloaded WordPress zip instead of fetching it)
  *
  * Safe to re-run: existing WordPress files, wp-config.php and an installed site are kept.
@@ -75,7 +76,7 @@ function installer_options() {
 			'db-name'     => INSTALLER_DB_NAME,
 			'url'         => INSTALLER_URL,
 			'admin-user'  => 'admin',
-			'admin-pass'  => bin2hex( random_bytes( 6 ) ),
+			'admin-pass'  => '',
 			'admin-email' => 'admin@example.com',
 			'zip'         => '',
 		),
@@ -250,8 +251,12 @@ if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
 	installer_fail( 'PHP 7.4 or newer is needed; this is PHP ' . PHP_VERSION . '.' );
 }
 
-$installer_root    = dirname( __DIR__ );
-$installer_options = installer_options();
+$installer_root       = dirname( __DIR__ );
+$installer_options    = installer_options();
+$installer_pass_given = '' !== $installer_options['admin-pass'];
+if ( ! $installer_pass_given ) {
+	$installer_options['admin-pass'] = bin2hex( random_bytes( 6 ) );
+}
 $installer_url     = parse_url( rtrim( $installer_options['url'], '/' ) );
 
 if ( empty( $installer_url['host'] ) ) {
@@ -283,8 +288,15 @@ $_SERVER['REQUEST_URI'] = '/';
 require $installer_root . '/wp-load.php';
 require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-if ( is_blog_installed() ) {
-	installer_say( '- WordPress is already installed (admin login unchanged).' );
+if ( is_blog_installed() && $installer_pass_given ) {
+	$installer_user = get_user_by( 'login', $installer_options['admin-user'] );
+	if ( ! $installer_user ) {
+		installer_fail( "There is no user called \"{$installer_options['admin-user']}\". Use --admin-user=NAME to pick the account." );
+	}
+	wp_set_password( $installer_options['admin-pass'], $installer_user->ID );
+	installer_say( "- WordPress is already installed; set a new password for {$installer_options['admin-user']}." );
+} elseif ( is_blog_installed() ) {
+	installer_say( '- WordPress is already installed (admin login unchanged; add --admin-pass=NEW to change it).' );
 	$installer_options['admin-pass'] = '(unchanged)';
 } else {
 	installer_say( '- Installing WordPress...' );
