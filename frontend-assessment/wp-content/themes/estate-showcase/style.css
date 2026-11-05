@@ -1,0 +1,500 @@
+/*
+Theme Name: Estate Showcase
+Author: WordPress Front-end Assessment
+Description: Lightweight classic theme for an estate agent landing page — Bootstrap 5 navbar, a featured listings grid and a Google reviews slider. Uses Open Sans and Font Awesome.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 7.1
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: estate-showcase
+Tags: one-column, custom-menu, custom-logo, featured-images, accessibility-ready
+*/
+
+/* -------------------------------------------------------------------------
+ * Tokens
+ * ---------------------------------------------------------------------- */
+:root {
+	--es-purple: #4b3fa7;
+	--es-purple-dark: #2f2780;
+	--es-gold: #e8b706;
+	--es-red: #e0251b;
+	--es-rule: #ecdf9f;
+	--es-surface: #f4f5f9;
+	--es-text: #2b2b33;
+	--es-muted: #6c6f7d;
+	--es-reviews-bg: #d99c0f;
+	--es-review-card: #262626;
+	--es-star: #f5c518;
+
+	--bs-body-font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--bs-body-color: var(--es-text);
+	--bs-link-color-rgb: 75, 63, 167;
+	--bs-link-hover-color-rgb: 47, 39, 128;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Sections sit below the sticky navbar when reached from a menu anchor. */
+[id] {
+	scroll-margin-top: 5rem;
+}
+
+.btn-primary {
+	--bs-btn-bg: var(--es-purple);
+	--bs-btn-border-color: var(--es-purple);
+	--bs-btn-hover-bg: var(--es-purple-dark);
+	--bs-btn-hover-border-color: var(--es-purple-dark);
+	--bs-btn-active-bg: var(--es-purple-dark);
+	--bs-btn-active-border-color: var(--es-purple-dark);
+	--bs-btn-focus-shadow-rgb: 75, 63, 167;
+}
+
+.btn-gold {
+	--bs-btn-color: #1d1b26;
+	--bs-btn-bg: var(--es-gold);
+	--bs-btn-border-color: var(--es-gold);
+	--bs-btn-hover-color: #1d1b26;
+	--bs-btn-hover-bg: #d4a705;
+	--bs-btn-hover-border-color: #d4a705;
+	--bs-btn-active-bg: #c29904;
+	--bs-btn-active-border-color: #c29904;
+	--bs-btn-focus-shadow-rgb: 232, 183, 6;
+	font-weight: 600;
+}
+
+.skip-link:focus {
+	position: fixed;
+	top: .5rem;
+	left: .5rem;
+	z-index: 1100;
+}
+
+/* -------------------------------------------------------------------------
+ * Header / navbar
+ * ---------------------------------------------------------------------- */
+.es-navbar {
+	--bs-navbar-color: var(--es-text);
+	--bs-navbar-hover-color: var(--es-purple);
+	--bs-navbar-active-color: var(--es-purple);
+	--bs-navbar-padding-y: .75rem;
+}
+
+.es-navbar .navbar-brand {
+	font-weight: 700;
+	color: var(--es-purple-dark);
+}
+
+.es-navbar .navbar-brand i {
+	color: var(--es-purple);
+}
+
+.es-navbar .custom-logo {
+	max-height: 44px;
+	width: auto;
+}
+
+.es-navbar .nav-link {
+	font-weight: 600;
+	font-size: .95rem;
+}
+
+/* -------------------------------------------------------------------------
+ * Hero
+ * ---------------------------------------------------------------------- */
+.es-hero {
+	background: linear-gradient(135deg, var(--es-purple-dark) 0%, var(--es-purple) 60%, #6a5fd0 100%);
+	color: #fff;
+	padding: clamp(3rem, 8vw, 5.5rem) 0;
+}
+
+.es-hero h1 {
+	font-weight: 700;
+	letter-spacing: -.01em;
+}
+
+.es-hero__intro {
+	font-size: 1.125rem;
+	color: rgba(255, 255, 255, .88);
+	max-width: 40rem;
+}
+
+.es-hero__intro p:last-child {
+	margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Design 1 — featured listings
+ * ---------------------------------------------------------------------- */
+.es-featured {
+	background: var(--es-surface);
+	border-bottom: 2px solid var(--es-purple);
+	padding: clamp(3rem, 6vw, 4.5rem) 0;
+}
+
+.es-section-title {
+	color: var(--es-purple);
+	font-size: clamp(1.15rem, 2vw, 1.35rem);
+	font-weight: 400;
+	letter-spacing: .03em;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.es-property {
+	background: #fff;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 2px 10px rgba(20, 20, 43, .12);
+	overflow: hidden;
+	transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.es-property:hover,
+.es-property:focus-within {
+	box-shadow: 0 10px 24px rgba(20, 20, 43, .16);
+	transform: translateY(-2px);
+}
+
+.es-property__media {
+	position: relative;
+	aspect-ratio: 3 / 2;
+	overflow: hidden;
+	margin: 0;
+}
+
+.es-property__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform .4s ease;
+}
+
+.es-property:hover .es-property__media img {
+	transform: scale(1.04);
+}
+
+.es-property__overlay {
+	position: absolute;
+	inset: auto 0 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+	padding: .55rem .75rem;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .7));
+	color: #fff;
+}
+
+.es-property__price {
+	font-size: 1rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.es-badge {
+	display: inline-block;
+	font-size: .72rem;
+	font-weight: 600;
+	line-height: 1;
+	padding: .4em 1em;
+	border-radius: 50rem;
+	color: #fff;
+	white-space: nowrap;
+}
+
+.es-badge--let-agreed {
+	background: var(--es-red);
+}
+
+.es-badge--to-let,
+.es-badge--for-sale {
+	background: var(--es-gold);
+	color: #1d1b26;
+}
+
+.es-property .card-body {
+	padding: 1rem 1rem .9rem;
+}
+
+.es-property__title {
+	font-size: .95rem;
+	font-weight: 600;
+	margin-bottom: .9rem;
+}
+
+.es-property__specs {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0 0 .9rem;
+	margin: 0 0 .75rem;
+	font-size: .78rem;
+	color: var(--es-muted);
+	border-bottom: 2px solid var(--es-rule);
+}
+
+.es-property__specs li + li::before {
+	content: "|";
+	color: var(--es-gold);
+	font-weight: 600;
+	margin: 0 .35rem;
+}
+
+.es-property__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.es-fav {
+	--size: 2rem;
+	display: inline-grid;
+	place-items: center;
+	width: var(--size);
+	height: var(--size);
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--es-purple);
+	color: #fff;
+	font-size: .85rem;
+	transition: background-color .2s ease, transform .2s ease;
+}
+
+.es-fav:hover {
+	background: var(--es-purple-dark);
+	transform: scale(1.06);
+}
+
+.es-fav:focus-visible {
+	outline: 3px solid rgba(75, 63, 167, .4);
+	outline-offset: 2px;
+}
+
+.es-fav[aria-pressed="true"] {
+	background: var(--es-red);
+}
+
+.es-property__available {
+	font-size: .78rem;
+	color: var(--es-muted);
+	margin: 0;
+}
+
+.es-property__available i {
+	margin-right: .3rem;
+}
+
+/* -------------------------------------------------------------------------
+ * Design 2 — Google reviews slider
+ * ---------------------------------------------------------------------- */
+.es-reviews {
+	background: var(--es-reviews-bg);
+	padding: clamp(3rem, 6vw, 4.5rem) 0 2.5rem;
+}
+
+.es-reviews__brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 2.25rem;
+	color: #fff;
+	line-height: 1;
+}
+
+.es-reviews__google {
+	font-size: clamp(3rem, 8vw, 4.75rem);
+	font-weight: 600;
+	letter-spacing: -.045em;
+}
+
+.es-reviews__label {
+	font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+	font-weight: 700;
+	margin-top: .4rem;
+}
+
+.es-reviews__label i {
+	font-size: .7em;
+	vertical-align: .1em;
+}
+
+.es-review {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.es-review__bubble {
+	position: relative;
+	flex-grow: 1;
+	margin: 0 0 1.6rem;
+	padding: 1.1rem 1.25rem 1.2rem;
+	background: var(--es-review-card);
+	color: #fff;
+	text-align: center;
+}
+
+/* Speech-bubble tail under the card. */
+.es-review__bubble::after {
+	content: "";
+	position: absolute;
+	left: 42%;
+	bottom: -1.5rem;
+	border-style: solid;
+	border-width: 1.5rem 1.5rem 0 0;
+	border-color: var(--es-review-card) transparent transparent transparent;
+}
+
+.es-review__stars {
+	color: var(--es-star);
+	font-size: .75rem;
+	letter-spacing: .15em;
+	margin-bottom: .5rem;
+}
+
+.es-review__text {
+	font-size: .85rem;
+	line-height: 1.5;
+	margin: 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.es-review__author {
+	font-size: .8rem;
+	font-weight: 700;
+	color: var(--es-review-card);
+	padding-left: .75rem;
+}
+
+.es-review__author i {
+	margin-right: .3rem;
+}
+
+.es-reviews .carousel-indicators {
+	position: static;
+	margin: 2.25rem 0 0;
+	gap: .5rem;
+}
+
+.es-reviews .carousel-indicators [data-bs-target] {
+	width: .5rem;
+	height: .5rem;
+	margin: 0;
+	border: 0;
+	border-radius: 50%;
+	background-color: #fff;
+	opacity: .6;
+}
+
+.es-reviews .carousel-indicators .active {
+	background-color: var(--es-purple);
+	opacity: 1;
+}
+
+.es-reviews .carousel-indicators [data-bs-target]:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+ * Footer
+ * ---------------------------------------------------------------------- */
+.es-footer {
+	background: #1d1b2b;
+	color: rgba(255, 255, 255, .78);
+	font-size: .92rem;
+}
+
+.es-footer a {
+	color: rgba(255, 255, 255, .78);
+	text-decoration: none;
+}
+
+.es-footer a:hover,
+.es-footer a:focus {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.es-footer__brand {
+	color: #fff;
+	font-weight: 700;
+	font-size: 1.15rem;
+}
+
+.es-footer__heading {
+	color: #fff;
+	font-size: .8rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+}
+
+.es-footer__links,
+.es-footer__contact {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.es-footer__links li + li,
+.es-footer__contact li + li {
+	margin-top: .55rem;
+}
+
+.es-footer__contact i {
+	width: 1.25rem;
+	color: var(--es-gold);
+}
+
+.es-social a {
+	display: inline-grid;
+	place-items: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .08);
+}
+
+.es-social a:hover,
+.es-social a:focus {
+	background: var(--es-purple);
+	text-decoration: none;
+}
+
+.es-footer__bottom {
+	border-top: 1px solid rgba(255, 255, 255, .1);
+	font-size: .82rem;
+}
+
+/* -------------------------------------------------------------------------
+ * Generic content (index.php)
+ * ---------------------------------------------------------------------- */
+.es-content img {
+	max-width: 100%;
+	height: auto;
+}
+
+.es-narrow {
+	max-width: 48rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.es-property,
+	.es-property__media img,
+	.es-fav {
+		transition: none;
+	}
+}

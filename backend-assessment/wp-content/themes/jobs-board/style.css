@@ -1,0 +1,278 @@
+/*
+Theme Name: Jobs Board
+Author: WordPress Development Assessment
+Description: Minimal classic theme with a "Jobs" custom post type (Job Title, Salary and Location fields), a jobs archive and a single job view — built without plugins.
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 7.1
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: jobs-board
+Tags: one-column, custom-menu, featured-images
+*/
+
+:root {
+	--jb-text: #1f2430;
+	--jb-muted: #5b6272;
+	--jb-border: #e3e6ee;
+	--jb-surface: #f6f7fb;
+	--jb-accent: #1e5bd8;
+	--jb-accent-dark: #1647aa;
+	--jb-radius: 10px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-size: 1rem;
+	line-height: 1.6;
+	color: var(--jb-text);
+	background: var(--jb-surface);
+}
+
+a {
+	color: var(--jb-accent);
+}
+
+a:hover,
+a:focus {
+	color: var(--jb-accent-dark);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+.wrap {
+	width: min(100% - 2rem, 60rem);
+	margin-inline: auto;
+}
+
+.screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link:focus {
+	position: fixed !important;
+	top: .5rem;
+	left: .5rem;
+	z-index: 100;
+	width: auto;
+	height: auto;
+	padding: .5rem 1rem;
+	margin: 0;
+	clip: auto;
+	background: #fff;
+	border-radius: 6px;
+}
+
+/* Header and footer */
+.site-header {
+	background: #fff;
+	border-bottom: 1px solid var(--jb-border);
+}
+
+.site-header__inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem 1.5rem;
+	padding-block: 1rem;
+}
+
+.site-title {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--jb-text);
+	text-decoration: none;
+}
+
+.site-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-nav a {
+	font-weight: 600;
+	color: var(--jb-text);
+	text-decoration: none;
+}
+
+.site-nav .current-menu-item > a,
+.site-nav a:hover,
+.site-nav a:focus {
+	color: var(--jb-accent);
+}
+
+.site-main {
+	padding-block: 2.5rem 3.5rem;
+}
+
+.site-footer {
+	border-top: 1px solid var(--jb-border);
+	background: #fff;
+	color: var(--jb-muted);
+	font-size: .9rem;
+}
+
+.site-footer p {
+	margin: 0;
+	padding-block: 1.25rem;
+}
+
+/* Page header */
+.page-header {
+	margin-bottom: 1.75rem;
+}
+
+.page-header h1 {
+	margin: 0 0 .25rem;
+	font-size: clamp(1.75rem, 4vw, 2.4rem);
+	line-height: 1.2;
+}
+
+.page-header__count,
+.job-single__date {
+	margin: 0;
+	color: var(--jb-muted);
+}
+
+/* Jobs archive */
+.job-list {
+	display: grid;
+	gap: 1.25rem;
+}
+
+.job-card {
+	padding: 1.5rem;
+	background: #fff;
+	border: 1px solid var(--jb-border);
+	border-radius: var(--jb-radius);
+}
+
+.job-card__title {
+	margin: 0 0 1rem;
+	font-size: 1.3rem;
+	line-height: 1.3;
+}
+
+.job-card__title a {
+	color: var(--jb-text);
+	text-decoration: none;
+}
+
+.job-card__title a:hover,
+.job-card__title a:focus {
+	color: var(--jb-accent);
+	text-decoration: underline;
+}
+
+.job-card__summary p {
+	margin: 1rem 0 0;
+	color: var(--jb-muted);
+}
+
+.job-card__link {
+	display: inline-block;
+	margin-top: 1rem;
+	font-weight: 600;
+}
+
+/* Custom fields */
+.job-fields {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+	gap: .75rem;
+	margin: 0;
+}
+
+.job-fields__row {
+	padding: .75rem 1rem;
+	background: var(--jb-surface);
+	border-radius: 8px;
+}
+
+.job-fields dt {
+	font-size: .75rem;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	color: var(--jb-muted);
+}
+
+.job-fields dd {
+	margin: .15rem 0 0;
+	font-weight: 600;
+}
+
+/* Single job */
+.job-single {
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+	background: #fff;
+	border: 1px solid var(--jb-border);
+	border-radius: var(--jb-radius);
+}
+
+.job-single__back {
+	margin: 0 0 1rem;
+}
+
+.job-single__image {
+	display: block;
+	margin-bottom: 1.5rem;
+	border-radius: 8px;
+}
+
+.job-single__details {
+	margin-bottom: 1.75rem;
+}
+
+.entry-content > :first-child {
+	margin-top: 0;
+}
+
+/* Pagination */
+.pagination {
+	margin-top: 2rem;
+}
+
+.pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+
+.pagination .page-numbers {
+	padding: .35rem .75rem;
+	background: #fff;
+	border: 1px solid var(--jb-border);
+	border-radius: 6px;
+	text-decoration: none;
+}
+
+.pagination .page-numbers.current {
+	background: var(--jb-accent);
+	border-color: var(--jb-accent);
+	color: #fff;
+}
