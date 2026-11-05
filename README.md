@@ -52,7 +52,7 @@ php -S localhost:8092 setup/router.php
 
 Open **<http://localhost:8092/jobs/>**.
 
-At the end, the installer prints the **WP Admin login**: user `admin` and a generated password. To stop a site, press `Ctrl+C` in its terminal. To start it again later, run just the `php -S …` line.
+To stop a site, press `Ctrl+C` in its terminal. To start it again later, run just the `php -S …` line.
 
 The installer:
 - downloads the latest WordPress and checks its SHA-1, leaving the theme folder alone;
@@ -60,6 +60,25 @@ The installer:
 - installs WordPress, activates the theme and adds the demo content.
 
 It only touches that project folder and its database, and you can safely run it again.
+
+### WP Admin login
+
+Each site has its own local admin account:
+
+| | Front-end | Back-end |
+| --- | --- | --- |
+| WP Admin | <http://localhost:8091/wp-admin/> | <http://localhost:8092/wp-admin/> |
+| Username | `admin` | `admin` |
+| Password | a random password shown at the end of the install | a random password shown at the end of the install |
+
+The password is on the installer's last line, for example:
+
+```
+WP Admin:  http://localhost:8091/wp-admin/  (user: admin, password: 3f9c2a7d41be)
+```
+
+- **To choose your own password**, add it to the install command: `php setup/install.php --admin-pass=YOUR_PASSWORD`. Add `--admin-user=NAME` for a different username.
+- **If you forget it**, run the installer again from that project's folder with a new one: `php setup/install.php --admin-pass=NEW_PASSWORD`. This sets the new password. It also re-applies the demo settings (site title, homepage, menu) but doesn't delete or duplicate any content. Without `--admin-pass`, a re-run leaves the login as it is.
 
 ### MySQL isn't "root" with no password?
 
@@ -133,6 +152,7 @@ Use a separate WordPress site for each assessment:
 | `php` is not recognised | PHP isn't on your PATH. Use Laragon's terminal (Menu → Terminal) or XAMPP's Shell button, or call PHP by its full path, e.g. `C:\xampp\php\php.exe setup/install.php`. |
 | `Can't connect to MySQL` | Start MySQL (Laragon/XAMPP control panel, or `brew services start mysql`), or pass your details with the `--db-*` options above. |
 | `zip extension is missing` / `mysqli extension is missing` | Enable `extension=zip` / `extension=mysqli` in `php.ini`. On XAMPP that file is `C:\xampp\php\php.ini`. |
+| Forgot the WP Admin password | From that project's folder: `php setup/install.php --admin-pass=NEW_PASSWORD`. |
 | WordPress download fails (proxy or firewall) | Download <https://wordpress.org/latest.zip> yourself and run `php setup/install.php --zip=path/to/latest.zip`. |
 | `/jobs/` returns 404 under Apache or nginx | WP Admin → Settings → Permalinks → **Save Changes**. |
 | Start again from scratch | Drop that project's database, delete its `wp-config.php`, and run the installer again. |

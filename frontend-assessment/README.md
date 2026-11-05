@@ -81,6 +81,10 @@ Open <http://localhost:8091>. The installer does the following, then prints the 
 - creates the `wpa_frontend` database and `wp-config.php`;
 - installs the site, activates the theme and adds the demo content.
 
+Log in at <http://localhost:8091/wp-admin/> as `admin` with the printed password.
+- To choose your own password, add `--admin-pass=YOUR_PASSWORD`.
+- If you forget it, run the installer again with `--admin-pass=NEW_PASSWORD`.
+
 If your MySQL isn't root with no password, add your details, e.g. `--db-user=root --db-pass=root --db-port=8889`. `--help` lists every option. Troubleshooting is in the [root README](../README.md#troubleshooting).
 
 ### Manual install (without the installer)
