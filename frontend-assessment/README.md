@@ -25,7 +25,8 @@ Everything lives in one lightweight classic theme, `wp-content/themes/estate-sho
 
 - **Headings:** one `<h1>` (the page title), section `<h2>`s, and an `<h3>` for each property.
 - **Semantic markup:** `header`/`nav`/`main`/`section`/`article`/`figure`/`footer`, `blockquote` + `figcaption` for reviews, and a skip link.
-- **Title:** `<title>` comes from WordPress (`title-tag` support). Core also adds the canonical link and robots meta.
+- **Title:** `<title>` comes from WordPress (`title-tag` support) and stays under 60 characters. Core also adds the canonical link and robots meta.
+- **Crawling:** WordPress's XML sitemap (`/wp-sitemap.xml`) is listed in `robots.txt`.
 - **Description:** the meta description is the page's **excerpt**, so it can be edited in WP Admin. If there is no excerpt it falls back to the opening words, then the tagline.
 - **Social tags:** Open Graph and Twitter card tags.
 - **Structured data:** JSON-LD with a `RealEstateAgent` and an `ItemList` of `RealEstateListing`s (price, currency, image, URL).
@@ -184,7 +185,7 @@ Tick **Primary navigation** and **Footer links**, then save.
 ### 4. Go-live checklist
 
 - Settings → Permalinks → **Post name** → Save.
-- Settings → Reading → untick **"Discourage search engines from indexing this site"**. Local installs have it ticked.
+- Settings → Reading → make sure **"Discourage search engines from indexing this site"** is unticked.
 - In `wp-config.php`, set `WP_DEBUG` to `false`.
 - Replace the placeholder contact details, social links, listings and reviews (see below).
 - Check the page:

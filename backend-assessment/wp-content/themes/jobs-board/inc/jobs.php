@@ -76,7 +76,9 @@ function jobs_board_register_post_type() {
 			),
 			'menu_icon'     => 'dashicons-portfolio',
 			'menu_position' => 20,
-			'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
+			// custom-fields lets the REST API return the registered meta (the generic
+			// Custom Fields panel doesn't list them: their keys are protected with "_").
+			'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'custom-fields' ),
 			'show_in_rest'  => true,
 		)
 	);
@@ -155,10 +157,12 @@ function jobs_board_use_classic_editor( $use_block_editor, $post_type ) {
 add_filter( 'use_block_editor_for_post_type', 'jobs_board_use_classic_editor', 10, 2 );
 
 /**
- * Adds the "Job details" box, shown straight under the job's name.
+ * Adds the "Job details" box, shown straight under the job's name, and drops the
+ * generic Custom Fields box (the post type only supports custom-fields for REST).
  */
 function jobs_board_add_meta_box() {
 	add_meta_box( 'jobs-board-details', __( 'Job details', 'jobs-board' ), 'jobs_board_render_meta_box', 'job', 'jobs_board_after_title', 'high' );
+	remove_meta_box( 'postcustom', 'job', 'normal' );
 }
 add_action( 'add_meta_boxes_job', 'jobs_board_add_meta_box' );
 
