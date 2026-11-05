@@ -26,7 +26,8 @@ if ( 'estate-showcase' !== get_template() ) {
 }
 
 update_option( 'blogname', 'Brightmoor Estates' );
-update_option( 'blogdescription', 'Lettings and sales across Hampshire, Devon and Dorset.' );
+// Front-page <title> is "Site name – Tagline": kept under 60 characters so search results show it in full.
+update_option( 'blogdescription', 'Lettings & sales in Southern England' );
 
 // Home page with the landing template.
 $home = get_page_by_path( 'home' );

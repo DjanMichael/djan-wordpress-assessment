@@ -383,21 +383,36 @@ body {
 
 .es-reviews .carousel-indicators {
 	position: static;
-	margin: 2.25rem 0 0;
-	gap: .5rem;
+	margin: 2rem 0 0;
 }
 
+/* Each dot is a 24px tap target with the small dot drawn in its centre. */
 .es-reviews .carousel-indicators [data-bs-target] {
-	width: .5rem;
-	height: .5rem;
+	position: relative;
+	width: 1.5rem;
+	height: 1.5rem;
 	margin: 0;
 	border: 0;
 	border-radius: 50%;
-	background-color: #fff;
-	opacity: .6;
+	background: transparent;
+	opacity: 1;
 }
 
-.es-reviews .carousel-indicators .active {
+.es-reviews .carousel-indicators [data-bs-target]::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: .5rem;
+	height: .5rem;
+	border-radius: 50%;
+	background-color: #fff;
+	opacity: .6;
+	transform: translate(-50%, -50%);
+	transition: background-color .2s ease, opacity .2s ease;
+}
+
+.es-reviews .carousel-indicators .active::before {
 	background-color: var(--es-purple);
 	opacity: 1;
 }
@@ -451,7 +466,18 @@ body {
 
 .es-footer__links li + li,
 .es-footer__contact li + li {
-	margin-top: .55rem;
+	margin-top: .3rem;
+}
+
+/* Even rows, and links tall enough to tap comfortably on touch screens. */
+.es-footer__links li,
+.es-footer__contact li {
+	line-height: 1.75rem;
+}
+
+.es-footer__links a,
+.es-footer__contact a {
+	display: inline-block;
 }
 
 .es-footer__contact i {

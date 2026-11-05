@@ -174,7 +174,7 @@ Go to Appearance → Menus. In the left column, open **Jobs**, then the **View A
 
 ### 5. Go-live checklist
 
-- Settings → Reading → untick **"Discourage search engines from indexing this site"**. Local installs have it ticked.
+- Settings → Reading → make sure **"Discourage search engines from indexing this site"** is unticked.
 - In `wp-config.php`, set `WP_DEBUG` to `false`.
 - Open `/jobs/` and a single job: all three fields should show, and pagination appears once there are more than 12 jobs.
 - Check a single job in Google's [Rich Results Test](https://search.google.com/test/rich-results), which should detect a *Job posting*.

@@ -300,7 +300,8 @@ if ( is_blog_installed() && $installer_pass_given ) {
 	$installer_options['admin-pass'] = '(unchanged)';
 } else {
 	installer_say( '- Installing WordPress...' );
-	$installer_result = wp_install( INSTALLER_TITLE, $installer_options['admin-user'], $installer_options['admin-email'], false, '', wp_slash( $installer_options['admin-pass'] ) );
+	// Visible to search engines: the site only runs locally, and SEO audits (e.g. Lighthouse) then see the real setup.
+	$installer_result = wp_install( INSTALLER_TITLE, $installer_options['admin-user'], $installer_options['admin-email'], true, '', wp_slash( $installer_options['admin-pass'] ) );
 	if ( empty( $installer_result['user_id'] ) || is_wp_error( $installer_result['user_id'] ) ) {
 		installer_fail( 'WordPress could not be installed.' );
 	}
