@@ -63,6 +63,9 @@ It only touches that project folder and its database, and you can safely run it 
 
 ### WP Admin login
 
+> [!NOTE]
+> **For assessment purposes only.** This repository is a job assessment, so the README lists the admin username and an example password to make reviewing easy. These details only work on the local test sites that the installer creates on your own computer. They aren't used on any live site and shouldn't be reused in production.
+
 Each site has its own local admin account:
 
 | | Front-end | Back-end |
