@@ -28,8 +28,8 @@ If you don't have PHP and MySQL yet:
 **1. Get the code**
 
 ```bash
-git clone <repository-url> wordpress-assessments
-cd wordpress-assessments
+git clone https://github.com/DjanMichael/djan-wordpress-assessment.git
+cd djan-wordpress-assessment
 ```
 
 **2. Front-end assessment**
@@ -42,7 +42,7 @@ php -S localhost:8091 setup/router.php
 
 Open **<http://localhost:8091>**. Leave this terminal running.
 
-**3. Back-end assessment.** In a second terminal, from the `wordpress-assessments` folder:
+**3. Back-end assessment.** In a second terminal, from the `djan-wordpress-assessment` folder:
 
 ```bash
 cd backend-assessment
@@ -144,7 +144,7 @@ Use a separate WordPress site for each assessment:
 Each project folder is a WordPress root, but only the work itself is committed:
 
 ```
-wordpress-assessments/
+djan-wordpress-assessment/
 ├── README.md                         ← this file
 ├── frontend-assessment/
 │   ├── README.md                     ← details + deploying to a live site
