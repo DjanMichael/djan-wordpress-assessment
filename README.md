@@ -1,23 +1,17 @@
 # WordPress Assessments
 
-## 1. WordPress Front-end Development
+| Assessment | Live site | Code |
+| --- | --- | --- |
+| WordPress Front-end Development: Bootstrap 5 landing page | <https://djan-frontend-wpa.simplynx.org> | [`frontend-assessment/`](frontend-assessment/README.md) |
+| WordPress Development (back-end): "Jobs" post type, no plugins | <https://djan-backend-wpa.simplynx.org/jobs/> | [`backend-assessment/`](backend-assessment/README.md) |
 
-Folder: [`frontend-assessment/`](frontend-assessment/README.md) · Theme: `estate-showcase`
+## Admin login
 
-A landing page built from two designs, "Our featured listing" and "Google Reviews", with:
+> For assessment review only.
 
-- Bootstrap 5
-- Standard Bootstrap navbar
-- Header and footer
-- Responsive on all devices
-- Font Awesome icons
-- Open Sans Google font
-- SEO friendly
+| Site | WP Admin | Username | Password |
+| --- | --- | --- | --- |
+| Front end | <https://djan-frontend-wpa.simplynx.org/wp-admin/> | `admin` | `PASSWORD_HERE` |
+| Back end | <https://djan-backend-wpa.simplynx.org/wp-admin/> | `admin` | `PASSWORD_HERE` |
 
-## 2. WordPress Development (back-end)
-
-Folder: [`backend-assessment/`](backend-assessment/README.md) · Theme: `jobs-board`
-
-- "Jobs" custom post type: add, edit and delete jobs
-- Job Title, Salary and Location fields, without plugins
-- Archive view and single view, each showing all fields
+In the back-end WP Admin, go to **Jobs** to add, edit and delete jobs.
